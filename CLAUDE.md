@@ -52,7 +52,7 @@ The interneta.world `/portal` route was a *founder* node-siting scorecard (12 va
 
 Honesty is mandatory: every seeded person is `verified:false` and shown with an `unverified` badge; the "proximity isn't access" caveat appears on each city card with anchors, in the detail view, and in the homepage honesty note. Never fabricate people or locations.
 
-**Superseded v1 dead code** (kept only because the `aether-guard` hook blocks deleting source inside Aether — remove manually): `lib/data/match.ts`, `lib/data/cities.ts`, `lib/data/passports.ts`, `components/portal-tool.tsx`.
+**Local-only files** (gitignored, exist on disk but not in the repo): `import/` + `reference/` (staging exports from interneta.world — source for the future globe + founder tool), and the superseded v1 engine (`lib/data/*.ts`, `components/portal-tool.tsx`) which the `aether-guard` hook keeps on disk. Don't re-add them to git; delete the v1 files manually whenever.
 
 ## Brand voice
 

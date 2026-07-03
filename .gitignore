@@ -37,3 +37,10 @@ next-env.d.ts
 .claude/settings.local.json*
 
 .vercel
+
+# local-only: interneta.world staging exports + superseded v1 engine
+# (kept on disk as reference material, not part of the app)
+/import/
+/reference/
+/lib/data/
+/components/portal-tool.tsx
