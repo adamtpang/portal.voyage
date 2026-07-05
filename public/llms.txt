@@ -1,0 +1,14 @@
+# portal.voyage (portal.voyage)
+
+> Where on Earth should you live? A data-driven map that ranks every city for you, the spiritual successor to Teleport and Nomad List.
+
+You build a character (budget, field, and the people you admire), and portal.voyage scores every city on the three things that actually decide it: your runway (cost of living), your career upside, and your people (where the people you admire cluster). It treats Earth as an open world where every city is a DLC your passport unlocks. The people axis is weighted highest by default, because that is the part Nomad List never nailed.
+
+It is for anyone deciding where to live to do their best work, afford a good life, and be near their people: remote workers, founders, and anyone making the biggest decision nobody helps you make with data. This is an early v0: one interactive tool on the homepage, backed by curated and approximate data, meant to start the search, not end it.
+
+## Key links
+- [Home](https://portal.voyage/): the hero, the interactive decision tool (sliders, budget, field, and admired people), the three axes explained, and an honesty note about the data.
+
+## About
+- Part of adam.inc, the internet portfolio of Adam Pangelinan (Anchor Marianas LLC).
+- Builder: https://adampang.com
