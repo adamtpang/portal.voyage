@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
@@ -76,8 +77,15 @@ export default function RootLayout({
           <div className="max-w-6xl mx-auto px-4 py-8 font-mono text-xs text-muted-foreground flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
             <span>portal.voyage — a data-driven map for where to live.</span>
             <span>Earth is the open world. Every city is a DLC.</span>
+            <a
+              href="https://adampang.com"
+              className="underline underline-offset-4 hover:text-foreground"
+            >
+              built by Adam Pangelinan
+            </a>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
