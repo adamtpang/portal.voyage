@@ -38,6 +38,11 @@ next-env.d.ts
 
 .vercel
 
+# local-only: cross-agent handoff files. Auto-generated from raw Claude
+# transcripts, so they embed verbatim user messages — keep them OFF this
+# public repo. Delete these two lines if you decide to publish them.
+/*_CONTINUE_FROM_*.md
+
 # local-only: interneta.world staging exports + superseded v1 engine
 # (kept on disk as reference material, not part of the app)
 /import/
