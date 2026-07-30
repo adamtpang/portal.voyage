@@ -92,7 +92,7 @@ export function DecisionTool() {
           )}
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
           {included.map((r, i) => (
             <CityCard
               key={r.city.slug}
@@ -124,7 +124,7 @@ export function DecisionTool() {
               {showFiltered ? "▾" : "▸"} {excluded.length} places filtered by your constraints
             </button>
             {showFiltered && (
-              <div className="grid sm:grid-cols-2 gap-4 mt-3">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
                 {excluded.map((r, i) => (
                   <CityCard
                     key={r.city.slug}

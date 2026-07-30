@@ -44,6 +44,10 @@ export type City = {
   timezone: string; // IANA
   visaOpenness: 1 | 2 | 3 | 4; // 4 = very open / easy long-stay
   blurb: string;
+  // Optional city photo for the tile. Absent → deterministic spectrum
+  // gradient. Populate with a licensed source (e.g. Unsplash) + attribution.
+  imageUrl?: string;
+  imageCredit?: string;
 };
 
 export type CareersData = {
