@@ -55,6 +55,17 @@ export default function Home() {
           decision — it doesn&apos;t make it for you.
         </p>
 
+        <div className="mb-10">
+          <a
+            href="https://buy.stripe.com/8x25kD93454xeUM6KtaMU0z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-xs px-3 py-1.5 rounded-lg border border-foreground bg-foreground text-background"
+          >
+            Founding license · $49 →
+          </a>
+        </div>
+
         <DecisionTool />
 
         {/* The three axes */}
