@@ -1,0 +1,19 @@
+# repos.yaml v0 — see github.com/adamtpang/repo-protocol
+repo: portal.voyage
+is: A data-driven map for deciding where to live, given passport and field.
+url: https://portal.voyage
+cluster: legibility-engines
+ranks: places
+
+provides:
+  - constraint-matcher: rank options against personal constraints
+
+stack: [next]
+
+kin:
+  - repo: optimism.fun
+    why: same ranking engine, applied to problems
+  - repo: pokedex.life
+    why: same ranking engine, applied to people
+
+canon: adamtpang/repo-protocol
