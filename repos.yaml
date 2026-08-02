@@ -6,7 +6,9 @@ cluster: legibility-engines
 ranks: places
 
 provides:
-  - constraint-matcher: rank options against personal constraints
+  - id: constraint-matcher
+    what: rank options against personal constraints
+    at: lib/score.ts
 
 stack: [next]
 
