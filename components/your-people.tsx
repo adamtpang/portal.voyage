@@ -47,6 +47,7 @@ export function YourPeople({
   const [showImport, setShowImport] = useState(false);
   const [importText, setImportText] = useState("");
   const [importSummary, setImportSummary] = useState<string | null>(null);
+  const [fetchingLive, setFetchingLive] = useState(false);
 
   const addedIds = new Set(admired.map((a) => a.id));
   const matches = q.trim()
@@ -76,8 +77,7 @@ export function YourPeople({
     setCName("");
     setShowCustom(false);
   };
-  const runImport = () => {
-    const result = parsePokedexExport(importText);
+  const applyImportResult = (result: ReturnType<typeof parsePokedexExport>, prefix: string) => {
     if (result.parseError) {
       setImportSummary(result.parseError);
       return;
@@ -86,13 +86,46 @@ export function YourPeople({
     const dupes = result.people.length - fresh.length;
     const noCity = fresh.filter((p) => !p.citySlug).length;
     onChange([...admired, ...fresh]);
-    setImportText("");
     setImportSummary(
-      `${fresh.length} added` +
+      `${prefix}${fresh.length} added` +
         (dupes ? `, ${dupes} already in your list` : "") +
         (noCity ? `, ${noCity} without a matched city` : "") +
         "."
     );
+  };
+
+  const runImport = () => {
+    applyImportResult(parsePokedexExport(importText), "");
+    setImportText("");
+  };
+
+  const runLiveFetch = async () => {
+    setFetchingLive(true);
+    setImportSummary(null);
+    try {
+      const res = await fetch("https://pokedex.life/api/people?limit=100");
+      if (!res.ok) {
+        setImportSummary(`pokedex.life returned an error (${res.status}). Try again later.`);
+        return;
+      }
+      const text = await res.text();
+      let body: { specimens?: unknown[]; note?: string };
+      try {
+        body = JSON.parse(text);
+      } catch {
+        setImportSummary("pokedex.life returned something unexpected — try pasting an export instead.");
+        return;
+      }
+      if (!body.specimens || body.specimens.length === 0) {
+        setImportSummary(body.note || "No classified people there yet.");
+        return;
+      }
+      applyImportResult(parsePokedexExport(text), "Fetched live: ");
+    } catch {
+      setImportSummary("Couldn't reach pokedex.life — check your connection and try again.");
+    } finally {
+      setFetchingLive(false);
+    }
   };
 
   const remove = (id: string) => onChange(admired.filter((a) => a.id !== id));
@@ -205,11 +238,31 @@ export function YourPeople({
           + Import from pokedex.life
         </button>
       ) : (
-        <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
+        <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-3">
+          <div className="space-y-1.5">
+            <button
+              type="button"
+              onClick={runLiveFetch}
+              disabled={fetchingLive}
+              className="w-full font-mono text-xs px-3 py-2 rounded-md border border-foreground bg-foreground text-background disabled:opacity-50 disabled:cursor-wait"
+            >
+              {fetchingLive ? "Fetching…" : "⚡ Fetch live from pokedex.life"}
+            </button>
+            <p className="text-[10px] text-muted-foreground leading-relaxed">
+              Pulls your classified people straight from pokedex.life. Nothing to paste — the
+              scan pipeline there decides who&apos;s actually classified yet.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <span className="flex-1 h-px bg-border" />
+            or paste an export
+            <span className="flex-1 h-px bg-border" />
+          </div>
+
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Paste a pokedex.life export (an array of specimens, or{" "}
-            <code className="font-mono">{"{ specimens: [...] }"}</code>). Level/Tier sets
-            admiration; location resolves to the nearest city we track.
+            An array of specimens, or <code className="font-mono">{"{ specimens: [...] }"}</code>.
+            Level/Tier sets admiration; location resolves to the nearest city we track.
           </p>
           <textarea
             value={importText}
