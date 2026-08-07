@@ -760,7 +760,13 @@
     "utcOffset": -5,
     "timezone": "America/Bogota",
     "visaOpenness": 4,
-    "blurb": "City of eternal spring; cheap, nomad visa, growing founder community."
+    "blurb": "City of eternal spring; cheap, nomad visa, growing founder community.",
+    "imageUrl": "https://images.unsplash.com/photo-1647823070026-181dc684c894?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDIwNDczfDB8MXxzZWFyY2h8MXx8TWVkZWxsJUMzJUFEbiUyMHNreWxpbmV8ZW58MXwwfHx8MTc4NjA4NDQzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+    "imageCredit": {
+      "photographer": "Rikin Katyal",
+      "photographerUrl": "https://unsplash.com/@sirvar?utm_source=portal_voyage&utm_medium=referral",
+      "unsplashUrl": "https://unsplash.com/?utm_source=portal_voyage&utm_medium=referral"
+    }
   },
   {
     "slug": "buenos-aires",
@@ -783,7 +789,13 @@
     "utcOffset": -3,
     "timezone": "America/Argentina/Buenos_Aires",
     "visaOpenness": 4,
-    "blurb": "Europe-in-LatAm feel; crypto capital of the region, strong design + culture."
+    "blurb": "Europe-in-LatAm feel; crypto capital of the region, strong design + culture.",
+    "imageUrl": "https://images.unsplash.com/photo-1611865422861-391cf5f3ba49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDIwNDczfDB8MXxzZWFyY2h8MXx8QnVlbm9zJTIwQWlyZXMlMjBza3lsaW5lfGVufDF8MHx8fDE3ODYwODQ0NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "imageCredit": {
+      "photographer": "Sebastian Cyrman",
+      "photographerUrl": "https://unsplash.com/@sebascyr?utm_source=portal_voyage&utm_medium=referral",
+      "unsplashUrl": "https://unsplash.com/?utm_source=portal_voyage&utm_medium=referral"
+    }
   },
   {
     "slug": "denver",
@@ -807,7 +819,13 @@
     "utcOffset": -7,
     "timezone": "America/Denver",
     "visaOpenness": 1,
-    "blurb": "Outdoorsy tech + climate-tech hub with mountain access. US visa needed."
+    "blurb": "Outdoorsy tech + climate-tech hub with mountain access. US visa needed.",
+    "imageUrl": "https://images.unsplash.com/photo-1709689702529-6fa1f343e108?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDIwNDczfDB8MXxzZWFyY2h8MXx8RGVudmVyJTIwc2t5bGluZXxlbnwxfDB8fHwxNzg2MDg0NDQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    "imageCredit": {
+      "photographer": "Nils Huenerfuerst",
+      "photographerUrl": "https://unsplash.com/@nhuenerfuerst?utm_source=portal_voyage&utm_medium=referral",
+      "unsplashUrl": "https://unsplash.com/?utm_source=portal_voyage&utm_medium=referral"
+    }
   },
   {
     "slug": "cape-town",
@@ -831,7 +849,13 @@
     "utcOffset": 2,
     "timezone": "Africa/Johannesburg",
     "visaOpenness": 3,
-    "blurb": "Stunning, English-easy, new nomad visa; safety is uneven by area."
+    "blurb": "Stunning, English-easy, new nomad visa; safety is uneven by area.",
+    "imageUrl": "https://images.unsplash.com/photo-1525946159414-20188b278a0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDIwNDczfDB8MXxzZWFyY2h8MXx8Q2FwZSUyMFRvd24lMjBza3lsaW5lfGVufDF8MHx8fDE3ODYwODQ0NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    "imageCredit": {
+      "photographer": "Tim Johnson",
+      "photographerUrl": "https://unsplash.com/@timalanjohnson?utm_source=portal_voyage&utm_medium=referral",
+      "unsplashUrl": "https://unsplash.com/?utm_source=portal_voyage&utm_medium=referral"
+    }
   },
   {
     "slug": "nairobi",
@@ -855,6 +879,12 @@
     "utcOffset": 3,
     "timezone": "Africa/Nairobi",
     "visaOpenness": 3,
-    "blurb": "Silicon Savannah; fast-growing fintech + climate scene, English-easy."
+    "blurb": "Silicon Savannah; fast-growing fintech + climate scene, English-easy.",
+    "imageUrl": "https://images.unsplash.com/photo-1735837836882-559fd3ab1a8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDIwNDczfDB8MXxzZWFyY2h8MXx8TmFpcm9iaSUyMHNreWxpbmV8ZW58MXwwfHx8MTc4NjA4NDQ0NHww&ixlib=rb-4.1.0&q=80&w=1080",
+    "imageCredit": {
+      "photographer": "Sweder Breet",
+      "photographerUrl": "https://unsplash.com/@sweder_etc?utm_source=portal_voyage&utm_medium=referral",
+      "unsplashUrl": "https://unsplash.com/?utm_source=portal_voyage&utm_medium=referral"
+    }
   }
 ]
