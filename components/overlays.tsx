@@ -45,6 +45,39 @@ export function CityDetail({
 
   return (
     <Overlay onClose={onClose}>
+      {city.imageUrl && (
+        <div className="relative h-36 sm:h-44 -m-px mb-0 rounded-t-2xl overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={city.imageUrl}
+            alt={`${city.city}, ${city.country}`}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0" />
+          {city.imageCredit && (
+            <span className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/75 bg-black/30 backdrop-blur-sm px-1.5 py-0.5 rounded">
+              Photo by{" "}
+              <a
+                href={city.imageCredit.photographerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white"
+              >
+                {city.imageCredit.photographer}
+              </a>{" "}
+              on{" "}
+              <a
+                href={city.imageCredit.unsplashUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white"
+              >
+                Unsplash
+              </a>
+            </span>
+          )}
+        </div>
+      )}
       <div className="p-5 sm:p-6 space-y-5">
         {/* header */}
         <div className="flex items-start gap-3">

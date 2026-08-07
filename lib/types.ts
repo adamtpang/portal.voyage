@@ -45,9 +45,13 @@ export type City = {
   visaOpenness: 1 | 2 | 3 | 4; // 4 = very open / easy long-stay
   blurb: string;
   // Optional city photo for the tile. Absent → deterministic spectrum
-  // gradient. Populate with a licensed source (e.g. Unsplash) + attribution.
+  // gradient. Populated by scripts/fetch-city-photos.mjs from Unsplash.
   imageUrl?: string;
-  imageCredit?: string;
+  imageCredit?: {
+    photographer: string;
+    photographerUrl: string; // Unsplash profile, utm-tagged per API guidelines
+    unsplashUrl: string; // the photo's Unsplash page, utm-tagged
+  };
 };
 
 export type CareersData = {
