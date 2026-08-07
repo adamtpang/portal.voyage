@@ -78,6 +78,6 @@ Honesty is mandatory: every seeded person is `verified:false` and shown with an 
 - "add a city" / "fix the data" → `data/cities.json` (+ a column in `data/careers.json`).
 - "change the ranking / weights / curves" → `lib/policy.ts` (the one knob file).
 - "add notable people" → `data/people.json` (keep `verified:false` unless truly confirmed).
-- "the people / love angle" → BUILT (the Schelling engine). Next: wire pokedex.life so the user's S/A-tier people seed the admired set automatically — "the WHO reweights the WHERE." See [[aether-trinity]].
+- "the people / love angle" → BUILT (the Schelling engine). The pokedex.life import pathway is also BUILT (`lib/pokedex-import.ts` + `lib/geo.ts`, wired into the "Your People" panel) — "the WHO reweights the WHERE." Note: pokedex.life's own docs are stale on this — it dropped X auth and S/A/B/C/D/F tiers for a Farcaster-based Trust/Level system, and has no live API or populated DB yet, so this is a paste-import against its real `Specimen` schema (Level/Tier → admiration, lat/lng → nearest city), not a live pull. A live `GET /api/people` on pokedex.life would be the natural v2, once its own pipeline has real output to serve. See [[aether-trinity]].
 - "lat/lng globe" → cities have `lat`/`lng`; a cobe globe + "find me → nearest cities" is the staged next unlock (see `import/` from interneta.world).
 - "the founder tool" → port `portal-criteria.ts` + `portal-scorecard.tsx` from `import/` (interneta.world's node-siting scorecard).

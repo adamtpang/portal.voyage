@@ -5,6 +5,7 @@ import type { AdmiredPerson, Person, Field } from "@/lib/types";
 import { FIELDS } from "@/lib/types";
 import { people as seedPeople, cities, cityBySlug } from "@/lib/data";
 import { personToAdmired } from "@/lib/defaults";
+import { parsePokedexExport } from "@/lib/pokedex-import";
 import { UnverifiedBadge, PeopleCaveat } from "@/components/ui-bits";
 
 function AdmirationStepper({
@@ -43,6 +44,9 @@ export function YourPeople({
   const [cName, setCName] = useState("");
   const [cCity, setCCity] = useState(cities[0].slug);
   const [cField, setCField] = useState<Field>("Startups");
+  const [showImport, setShowImport] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [importSummary, setImportSummary] = useState<string | null>(null);
 
   const addedIds = new Set(admired.map((a) => a.id));
   const matches = q.trim()
@@ -72,6 +76,25 @@ export function YourPeople({
     setCName("");
     setShowCustom(false);
   };
+  const runImport = () => {
+    const result = parsePokedexExport(importText);
+    if (result.parseError) {
+      setImportSummary(result.parseError);
+      return;
+    }
+    const fresh = result.people.filter((p) => !addedIds.has(p.id));
+    const dupes = result.people.length - fresh.length;
+    const noCity = fresh.filter((p) => !p.citySlug).length;
+    onChange([...admired, ...fresh]);
+    setImportText("");
+    setImportSummary(
+      `${fresh.length} added` +
+        (dupes ? `, ${dupes} already in your list` : "") +
+        (noCity ? `, ${noCity} without a matched city` : "") +
+        "."
+    );
+  };
+
   const remove = (id: string) => onChange(admired.filter((a) => a.id !== id));
   const setAdm = (id: string, v: 1 | 2 | 3 | 4 | 5) =>
     onChange(admired.map((a) => (a.id === id ? { ...a, admiration: v } : a)));
@@ -167,6 +190,55 @@ export function YourPeople({
               className="font-mono text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted"
             >
               Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* pokedex.life import */}
+      {!showImport ? (
+        <button
+          type="button"
+          onClick={() => setShowImport(true)}
+          className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          + Import from pokedex.life
+        </button>
+      ) : (
+        <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Paste a pokedex.life export (an array of specimens, or{" "}
+            <code className="font-mono">{"{ specimens: [...] }"}</code>). Level/Tier sets
+            admiration; location resolves to the nearest city we track.
+          </p>
+          <textarea
+            value={importText}
+            onChange={(e) => setImportText(e.target.value)}
+            placeholder='[{"handle": "...", "level": 72, "locationLat": 1.35, "locationLng": 103.82}]'
+            rows={4}
+            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono"
+          />
+          {importSummary && (
+            <p className="text-xs text-foreground/80 leading-relaxed">{importSummary}</p>
+          )}
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={runImport}
+              disabled={!importText.trim()}
+              className="font-mono text-xs px-3 py-1.5 rounded-md border border-foreground bg-foreground text-background disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Import
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowImport(false);
+                setImportSummary(null);
+              }}
+              className="font-mono text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted"
+            >
+              Close
             </button>
           </div>
         </div>
