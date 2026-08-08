@@ -9,6 +9,7 @@ import { ControlsPanel, WeightSliders } from "@/components/controls";
 import { YourPeople } from "@/components/your-people";
 import { CityCard } from "@/components/city-card";
 import { CityDetail, CompareView } from "@/components/overlays";
+import { WorldGlobe } from "@/components/world-globe";
 
 function Section({
   title,
@@ -77,6 +78,17 @@ export function DecisionTool() {
 
       {/* results */}
       <div className="space-y-4">
+        <div>
+          <WorldGlobe scored={ranked} onSelect={(slug) => setDetailSlug(slug)} />
+          <p className="mt-2 font-mono text-[10px] text-muted-foreground leading-relaxed">
+            Drag to rotate, scroll to zoom, click a marker for details.{" "}
+            <span style={{ color: "var(--pv-green)" }}>●</span> your zone{" "}
+            <span style={{ color: "var(--pv-cyan)" }}>●</span> strong fit{" "}
+            <span style={{ color: "var(--pv-gold)" }}>●</span> playable{" "}
+            <span className="text-muted-foreground">●</span> off-meta / filtered
+          </p>
+        </div>
+
         <div className="flex items-center justify-between gap-3">
           <p className="font-mono text-xs text-muted-foreground">
             {included.length} places match · ranked by fit

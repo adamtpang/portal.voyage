@@ -54,3 +54,20 @@ export function matchCityByText(text: string): City | null {
     ) ?? null
   );
 }
+
+// Standard lat/lng -> unit-sphere xyz (Three.js convention: +Y up, +Z toward
+// the viewer at lng=0). Used only by the globe visualization — kept here
+// alongside the other geo math rather than duplicated in a component.
+export function latLngToVector3(
+  lat: number,
+  lng: number,
+  radius: number
+): [number, number, number] {
+  const phi = toRad(90 - lat);
+  const theta = toRad(lng + 180);
+  return [
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta),
+  ];
+}
