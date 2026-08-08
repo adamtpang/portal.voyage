@@ -5,6 +5,7 @@ import type { UserInput, Constraints, Weights, ScoredCity } from "@/lib/types";
 import { defaultInput } from "@/lib/defaults";
 import { rankCities } from "@/lib/score";
 import { policy } from "@/lib/policy";
+import { nearestCity } from "@/lib/geo";
 import { ControlsPanel, WeightSliders } from "@/components/controls";
 import { YourPeople } from "@/components/your-people";
 import { CityCard } from "@/components/city-card";
@@ -41,6 +42,40 @@ export function DecisionTool() {
   const [compare, setCompare] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [showFiltered, setShowFiltered] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [locateMsg, setLocateMsg] = useState<string | null>(null);
+  const [nearestSlug, setNearestSlug] = useState<string | null>(null);
+
+  function findMe() {
+    if (!("geolocation" in navigator)) {
+      setLocateMsg("Geolocation isn't available in this browser.");
+      return;
+    }
+    setLocating(true);
+    setLocateMsg(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocating(false);
+        const match = nearestCity(pos.coords.latitude, pos.coords.longitude);
+        if (!match) {
+          setNearestSlug(null);
+          setLocateMsg("You're more than 300km from any of our 30 cities — explore the globe instead.");
+          return;
+        }
+        setNearestSlug(match.city.slug);
+        setLocateMsg(`Nearest: ${match.city.city} — ${Math.round(match.distanceKm)}km away.`);
+      },
+      (err) => {
+        setLocating(false);
+        setLocateMsg(
+          err.code === err.PERMISSION_DENIED
+            ? "Location permission denied."
+            : "Couldn't get your location."
+        );
+      },
+      { timeout: 10_000 }
+    );
+  }
 
   const patch = (p: Partial<UserInput>) => setInput((s) => ({ ...s, ...p }));
   const patchConstraints = (p: Partial<Constraints>) =>
@@ -79,14 +114,43 @@ export function DecisionTool() {
       {/* results */}
       <div className="space-y-4">
         <div>
-          <WorldGlobe scored={ranked} onSelect={(slug) => setDetailSlug(slug)} />
-          <p className="mt-2 font-mono text-[10px] text-muted-foreground leading-relaxed">
-            Drag to rotate, scroll to zoom, click a marker for details.{" "}
-            <span style={{ color: "var(--pv-green)" }}>●</span> your zone{" "}
-            <span style={{ color: "var(--pv-cyan)" }}>●</span> strong fit{" "}
-            <span style={{ color: "var(--pv-gold)" }}>●</span> playable{" "}
-            <span className="text-muted-foreground">●</span> off-meta / filtered
-          </p>
+          <WorldGlobe
+            scored={ranked}
+            onSelect={(slug) => setDetailSlug(slug)}
+            highlightSlug={nearestSlug}
+          />
+          <div className="mt-2 flex items-start justify-between gap-3 flex-wrap">
+            <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+              Drag to rotate, scroll to zoom, click a marker for details.{" "}
+              <span style={{ color: "var(--pv-green)" }}>●</span> your zone{" "}
+              <span style={{ color: "var(--pv-cyan)" }}>●</span> strong fit{" "}
+              <span style={{ color: "var(--pv-gold)" }}>●</span> playable{" "}
+              <span className="text-muted-foreground">●</span> off-meta / filtered{" "}
+              <span className="text-foreground">○</span> you
+            </p>
+            <button
+              type="button"
+              onClick={findMe}
+              disabled={locating}
+              className="font-mono text-[10px] px-2.5 py-1 rounded-lg border border-border hover:bg-muted disabled:opacity-50 whitespace-nowrap"
+            >
+              {locating ? "Locating…" : "📍 Find me"}
+            </button>
+          </div>
+          {locateMsg && (
+            <p className="mt-1 font-mono text-[10px] text-foreground/80">
+              {locateMsg}{" "}
+              {nearestSlug && (
+                <button
+                  type="button"
+                  onClick={() => setDetailSlug(nearestSlug)}
+                  className="underline hover:text-foreground"
+                >
+                  view details
+                </button>
+              )}
+            </p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-3">

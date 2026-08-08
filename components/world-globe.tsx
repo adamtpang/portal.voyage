@@ -42,12 +42,16 @@ function fibonacciSpherePoints(count: number, radius: number): Float32Array {
 export function WorldGlobe({
   scored,
   onSelect,
+  highlightSlug,
 }: {
   scored: ScoredCity[];
   onSelect: (slug: string) => void;
+  highlightSlug?: string | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<THREE.Group | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
 
@@ -62,6 +66,7 @@ export function WorldGlobe({
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     camera.position.set(0, 0, 5.2);
+    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -76,6 +81,7 @@ export function WorldGlobe({
     controls.autoRotateSpeed = 0.6;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
+    controlsRef.current = controls;
 
     // Base dot-matrix globe.
     const dotGeo = new THREE.BufferGeometry();
@@ -179,6 +185,8 @@ export function WorldGlobe({
         container.removeChild(renderer.domElement);
       }
       markersRef.current = null;
+      cameraRef.current = null;
+      controlsRef.current = null;
     };
   }, []);
 
@@ -197,21 +205,41 @@ export function WorldGlobe({
     }
 
     const topSlug = scored.find((s) => !s.excluded)?.city.slug;
+    let highlightPos: [number, number, number] | null = null;
     for (const s of scored) {
       const [x, y, z] = latLngToVector3(s.city.lat, s.city.lng, GLOBE_RADIUS * 1.01);
       const isTop = s.city.slug === topSlug;
-      const geo = new THREE.SphereGeometry(isTop ? MARKER_RADIUS * 1.8 : MARKER_RADIUS, 12, 12);
+      const isHighlight = s.city.slug === highlightSlug;
+      if (isHighlight) highlightPos = [x, y, z];
+      const geo = new THREE.SphereGeometry(
+        isHighlight || isTop ? MARKER_RADIUS * 1.8 : MARKER_RADIUS,
+        12,
+        12
+      );
       const mat = new THREE.MeshBasicMaterial({
-        color: s.excluded ? 0x3f3f46 : fitHexColor(s.fit),
-        transparent: s.excluded,
-        opacity: s.excluded ? 0.35 : 1,
+        color: isHighlight ? 0xffffff : s.excluded ? 0x3f3f46 : fitHexColor(s.fit),
+        transparent: s.excluded && !isHighlight,
+        opacity: s.excluded && !isHighlight ? 0.35 : 1,
       });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.set(x, y, z);
       mesh.userData.slug = s.city.slug;
       markers.add(mesh);
     }
-  }, [scored]);
+
+    // "Find me" — snap the camera to face the highlighted marker and pause
+    // auto-rotate so it doesn't immediately spin away. OrbitControls derives
+    // its internal spherical state from camera.position on the next
+    // update(), so setting position directly here is enough; the running
+    // animate() loop picks it up on the very next frame.
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    if (controls) controls.autoRotate = !highlightPos;
+    if (highlightPos && camera) {
+      const dir = new THREE.Vector3(...highlightPos).normalize();
+      camera.position.copy(dir.multiplyScalar(camera.position.length()));
+    }
+  }, [scored, highlightSlug]);
 
   return (
     <div
