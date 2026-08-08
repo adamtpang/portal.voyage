@@ -145,7 +145,17 @@ export function WorldGlobe({
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     }
+    // Belt-and-suspenders sizing: an eager call can read a stale/default
+    // width if the browser hasn't finished layout for a percentage-width
+    // (w-full) container yet at this point in the mount effect; relying
+    // solely on ResizeObserver's initial-fire-on-observe assumed it would
+    // always self-correct, but that didn't hold up in testing (confirmed
+    // via a temporary debug log: resize() was never called at all in some
+    // environments). So: call it immediately, again next frame (once
+    // layout has definitely settled), and keep the observer for any size
+    // changes after that (sidebar collapse, window resize, etc).
     resize();
+    requestAnimationFrame(resize);
     const ro = new ResizeObserver(resize);
     ro.observe(container);
 
