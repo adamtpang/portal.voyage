@@ -19,8 +19,15 @@ not another blog post.
 
 ## Price
 
-**$49 one-time founding license.** Rail is live: `buy.stripe.com/8x25kD93454xeUM6KtaMU0z`
-(verified returning HTTP 200, 2026-08-08).
+**$49 one-time founding license.** Rail is live: `buy.stripe.com/8x25kD93454xeUM6KtaMU0z`.
+
+The 2026-08-08 "verified" note here only checked HTTP 200, which is not proof of a
+working checkout — Stripe returns 200 on its "This link is no longer active" page
+too. The link was in fact dead (its Product and Price were both archived in
+Stripe). Fixed and re-verified for real on 2026-08-12: reactivated the Product,
+Price, and Payment Link via the Stripe API, then confirmed by rendering the
+actual checkout page in a browser (email/card form, "portal.voyage founding
+lifetime license," $49.00, Pay button). See `NORTH_STAR.md` for the full note.
 
 ## Grand-slam checks
 
