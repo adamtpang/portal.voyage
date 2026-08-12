@@ -14,8 +14,8 @@ stack: [next]
 
 kin:
   - repo: optimism.fun
-    why: same ranking engine, applied to problems
+    why: idea-level kin, not shared code — both rank entities by weighted axes plus hard-constraint filters (see ECOSYSTEM.md); optimism.fun ranks problems, this repo ranks places
   - repo: pokedex.life
-    why: same ranking engine, applied to people
+    why: idea-level kin, not shared code — both rank entities by weighted axes plus hard-constraint filters (see ECOSYSTEM.md); pokedex.life ranks people, this repo ranks places
 
 canon: ECOSYSTEM.md
