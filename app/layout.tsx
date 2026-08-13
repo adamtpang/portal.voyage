@@ -50,6 +50,19 @@ export default function RootLayout({
             `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "portal.voyage",
+              url: "https://portal.voyage",
+              description:
+                "A data-driven map for deciding where to live. Set your passport, field, and what you want out of life, and find the cities on Earth that actually fit you, visas included.",
+            }),
+          }}
+        />
       </head>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
