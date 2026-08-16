@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   description:
     "A data-driven map for deciding where to live. Set your passport, field, and what you want out of life, and find the cities on Earth that actually fit you, visas included.",
   metadataBase: new URL("https://portal.voyage"),
+  alternates: {
+    canonical: "https://portal.voyage",
+  },
   openGraph: {
     title: "portal.voyage · Where on Earth should you live?",
     description:
@@ -55,11 +58,24 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "portal.voyage",
-              url: "https://portal.voyage",
-              description:
-                "A data-driven map for deciding where to live. Set your passport, field, and what you want out of life, and find the cities on Earth that actually fit you, visas included.",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://portal.voyage/#organization",
+                  name: "portal.voyage",
+                  url: "https://portal.voyage",
+                  sameAs: ["https://github.com/adamtpang/portal.voyage"],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://portal.voyage/#website",
+                  name: "portal.voyage",
+                  url: "https://portal.voyage",
+                  description:
+                    "A data-driven map for deciding where to live. Set your passport, field, and what you want out of life, and find the cities on Earth that actually fit you, visas included.",
+                  publisher: { "@id": "https://portal.voyage/#organization" },
+                },
+              ],
             }),
           }}
         />
