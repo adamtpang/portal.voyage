@@ -2,6 +2,14 @@
 
 Guidance for Claude Code working in this repository.
 
+## Latest verified production release (2026-08-30)
+
+- Application commit `e1988fc290144b76d96b3f44ac73cc14cfc9211a` added enforced security headers, complete accessible control naming, truthful About/Contact/Privacy routes, a real in-product CTA, modal focus semantics, and focused production-contract tests.
+- Vercel production deployment `dpl_81vRnVxE5EBPJjoKW1APDuuXWHYR` was promoted to `https://portal.voyage`.
+- The authoritative Lightmark production scan fetched at `2026-08-30T04:34:15.639Z` scored exactly 100/100, grade A, with all 11 scorecards at 100 and zero findings. The independently reproduced pre-change baseline was 84/B with seven findings.
+- Local verification passed `npm test` (6/6), `npm run typecheck`, `npm run lint`, `npm run build`, and both full and production-only `npm audit` with zero vulnerabilities.
+- An isolated Helium production pass confirmed 87/87 accessible controls, human/GPTBot parity, keyboard-safe dialogs, no mobile horizontal overflow, geolocation still at `prompt`, no natural CSP violations, and enforcement of `connect-src`.
+
 ## What this is
 
 **portal.voyage** — "Where on Earth should you live?" A data-driven tool that helps a *person* decide where to live: cost of living, career, taxes, climate, safety, community, and — crucially — whether they can actually get a visa. The spiritual successor to Teleport and Nomad List.
