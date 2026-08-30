@@ -103,15 +103,28 @@ export default function RootLayout({
         <main className="flex-1 w-full">{children}</main>
 
         <footer className="border-t-2 border-border mt-20">
-          <div className="max-w-6xl mx-auto px-4 py-8 font-mono text-xs text-muted-foreground flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-            <span>portal.voyage — a data-driven map for where to live.</span>
-            <span>Earth is the open world. Every city is a DLC.</span>
-            <a
-              href="https://adampang.com"
-              className="underline underline-offset-4 hover:text-foreground"
-            >
-              built by Adam Pangelinan
-            </a>
+          <div className="max-w-6xl mx-auto px-4 py-8 font-mono text-xs text-muted-foreground flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-1">
+              <p>portal.voyage — a data-driven map for where to live.</p>
+              <p>Earth is the open world. Every city is a DLC.</p>
+            </div>
+            <nav aria-label="Site information" className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end">
+              <Link href="/about" className="underline underline-offset-4 hover:text-foreground">
+                About
+              </Link>
+              <Link href="/contact" className="underline underline-offset-4 hover:text-foreground">
+                Contact
+              </Link>
+              <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">
+                Privacy
+              </Link>
+              <a
+                href="https://adampang.com"
+                className="underline underline-offset-4 hover:text-foreground"
+              >
+                built by Adam Pangelinan
+              </a>
+            </nav>
           </div>
         </footer>
         <Analytics />

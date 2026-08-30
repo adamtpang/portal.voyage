@@ -97,7 +97,7 @@ export function DecisionTool() {
     .filter(Boolean) as ScoredCity[];
 
   return (
-    <div className="grid lg:grid-cols-[340px_1fr] gap-6">
+    <div id="decision-tool" className="grid lg:grid-cols-[340px_1fr] gap-6 scroll-mt-6">
       {/* controls */}
       <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
         <Section title="What you value">

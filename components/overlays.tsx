@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { ScoredCity, UserInput } from "@/lib/types";
 import { policy } from "@/lib/policy";
 import {
@@ -13,13 +13,70 @@ import {
 
 const VISA_LABEL = ["", "Hard to enter", "Moderate", "Open", "Very open"];
 
-function Overlay({ onClose, children }: { onClose: () => void; children: ReactNode }) {
+function Overlay({
+  label,
+  onClose,
+  children,
+}: {
+  label: string;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    dialog?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previousFocus?.focus();
+    };
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm sm:p-4"
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={label}
+        tabIndex={-1}
         className="w-full sm:max-w-2xl max-h-[92vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl border border-border bg-card shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -44,7 +101,7 @@ export function CityDetail({
   const ambientOnly = ambientNotables.filter((p) => !anchorIds.has(p.id));
 
   return (
-    <Overlay onClose={onClose}>
+    <Overlay label={`${city.city} details`} onClose={onClose}>
       {city.imageUrl && (
         <div className="relative h-36 sm:h-44 -m-px mb-0 rounded-t-2xl overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -220,7 +277,7 @@ export function CompareView({
     ["Your people", (s) => s.anchors.length || "—"],
   ];
   return (
-    <Overlay onClose={onClose}>
+    <Overlay label="Compare selected cities" onClose={onClose}>
       <div className="p-5 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Compare</h2>

@@ -135,37 +135,44 @@ export function YourPeople({
   return (
     <div className="space-y-4">
       {/* search */}
-      <div className="relative">
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search people you admire…"
-          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
-        />
-        {matches.length > 0 && (
-          <div className="absolute z-10 mt-1 w-full rounded-lg border border-border bg-card shadow-md overflow-hidden">
-            {matches.map((p) => {
-              const city = cityBySlug[p.citySlug];
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => add(p)}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-muted transition-colors"
-                >
-                  <span className="text-base">{city?.flag ?? "📍"}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm truncate">{p.name}</span>
-                    <span className="block font-mono text-[10px] text-muted-foreground truncate">
-                      {p.role} · {city?.city ?? p.citySlug}
+      <div className="space-y-1.5">
+        <label htmlFor="admired-people-search" className="block text-xs text-muted-foreground">
+          Search people you admire
+        </label>
+        <div className="relative">
+          <input
+            id="admired-people-search"
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Name or role"
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          />
+          {matches.length > 0 && (
+            <div className="absolute z-10 mt-1 w-full rounded-lg border border-border bg-card shadow-md overflow-hidden">
+              {matches.map((p) => {
+                const city = cityBySlug[p.citySlug];
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => add(p)}
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-muted transition-colors"
+                  >
+                    <span className="text-base">{city?.flag ?? "📍"}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm truncate">{p.name}</span>
+                      <span className="block font-mono text-[10px] text-muted-foreground truncate">
+                        {p.role} · {city?.city ?? p.citySlug}
+                      </span>
                     </span>
-                  </span>
-                  <span className="font-mono text-xs text-muted-foreground">+ add</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+                    <span className="font-mono text-xs text-muted-foreground">+ add</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* custom add */}
@@ -179,35 +186,52 @@ export function YourPeople({
         </button>
       ) : (
         <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
-          <input
-            value={cName}
-            onChange={(e) => setCName(e.target.value)}
-            placeholder="Name"
-            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-sm"
-          />
+          <div>
+            <label htmlFor="custom-person-name" className="block text-[10px] text-muted-foreground mb-1">
+              Person name
+            </label>
+            <input
+              id="custom-person-name"
+              value={cName}
+              onChange={(e) => setCName(e.target.value)}
+              className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-sm"
+            />
+          </div>
           <div className="flex gap-2">
-            <select
-              value={cCity}
-              onChange={(e) => setCCity(e.target.value)}
-              className="flex-1 rounded-md border border-border bg-background px-2 py-1.5 text-xs font-mono cursor-pointer"
-            >
-              {cities.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {c.flag} {c.city}
-                </option>
-              ))}
-            </select>
-            <select
-              value={cField}
-              onChange={(e) => setCField(e.target.value as Field)}
-              className="rounded-md border border-border bg-background px-2 py-1.5 text-xs font-mono cursor-pointer"
-            >
-              {FIELDS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
+            <div className="flex-1">
+              <label htmlFor="custom-person-city" className="block text-[10px] text-muted-foreground mb-1">
+                City
+              </label>
+              <select
+                id="custom-person-city"
+                value={cCity}
+                onChange={(e) => setCCity(e.target.value)}
+                className="w-full rounded-md border border-border bg-background px-2 py-1.5 text-xs font-mono cursor-pointer"
+              >
+                {cities.map((c) => (
+                  <option key={c.slug} value={c.slug}>
+                    {c.flag} {c.city}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="custom-person-field" className="block text-[10px] text-muted-foreground mb-1">
+                Field
+              </label>
+              <select
+                id="custom-person-field"
+                value={cField}
+                onChange={(e) => setCField(e.target.value as Field)}
+                className="rounded-md border border-border bg-background px-2 py-1.5 text-xs font-mono cursor-pointer"
+              >
+                {FIELDS.map((f) => (
+                  <option key={f} value={f}>
+                    {f}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex gap-2">
             <button
@@ -264,13 +288,19 @@ export function YourPeople({
             An array of specimens, or <code className="font-mono">{"{ specimens: [...] }"}</code>.
             Level/Tier sets admiration; location resolves to the nearest city we track.
           </p>
-          <textarea
-            value={importText}
-            onChange={(e) => setImportText(e.target.value)}
-            placeholder='[{"handle": "...", "level": 72, "locationLat": 1.35, "locationLng": 103.82}]'
-            rows={4}
-            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono"
-          />
+          <div>
+            <label htmlFor="pokedex-export" className="block text-[10px] text-muted-foreground mb-1">
+              pokedex.life export JSON
+            </label>
+            <textarea
+              id="pokedex-export"
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              placeholder='[{"handle": "...", "level": 72, "locationLat": 1.35, "locationLng": 103.82}]'
+              rows={4}
+              className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono"
+            />
+          </div>
           {importSummary && (
             <p className="text-xs text-foreground/80 leading-relaxed">{importSummary}</p>
           )}

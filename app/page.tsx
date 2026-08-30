@@ -55,12 +55,18 @@ export default function Home() {
           decision — it doesn&apos;t make it for you.
         </p>
 
-        <div className="mb-10">
+        <div className="mb-10 flex flex-wrap gap-3 items-center">
+          <a
+            href="#decision-tool"
+            className="font-mono text-sm px-4 py-2.5 rounded-lg border-2 border-foreground bg-foreground text-background shadow-brutal-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
+          >
+            Start exploring 30 cities ↓
+          </a>
           <a
             href="https://buy.stripe.com/8x25kD93454xeUM6KtaMU0z"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-xs px-3 py-1.5 rounded-lg border border-foreground bg-foreground text-background"
+            className="font-mono text-xs px-3 py-2 rounded-lg border border-border hover:bg-muted"
           >
             Founding license · $49 →
           </a>

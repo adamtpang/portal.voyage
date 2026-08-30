@@ -7,5 +7,9 @@ Founding lifetime license $49: https://buy.stripe.com/8x25kD93454xeUM6KtaMU0z
 
 ## Links
 Site: https://portal.voyage
+About: https://portal.voyage/about
+Contact: https://portal.voyage/contact
+Privacy: https://portal.voyage/privacy
+Source: https://github.com/adamtpang/portal.voyage
 More from adam.inc (43 products, one menu): https://adam.gives
 Built by Adam Pang: https://adampang.com

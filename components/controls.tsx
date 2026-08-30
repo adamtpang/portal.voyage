@@ -67,10 +67,14 @@ export function ControlsPanel({
   return (
     <div className="space-y-5">
       <div>
-        <label className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
+        <label
+          htmlFor="monthly-budget"
+          className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5"
+        >
           Monthly budget (USD)
         </label>
         <input
+          id="monthly-budget"
           type="number"
           min={0}
           step={100}
@@ -81,10 +85,14 @@ export function ControlsPanel({
       </div>
 
       <div>
-        <label className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
+        <label
+          htmlFor="career-field"
+          className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5"
+        >
           Your field
         </label>
         <select
+          id="career-field"
           value={input.field}
           onChange={(e) => onPatch({ field: e.target.value as Field | "any" })}
           className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono cursor-pointer"
@@ -152,9 +160,12 @@ export function ControlsPanel({
         </div>
 
         <div>
-          <div className="text-xs text-muted-foreground mb-1.5">Timezone target</div>
+          <label htmlFor="timezone-target" className="block text-xs text-muted-foreground mb-1.5">
+            Timezone target
+          </label>
           <div className="flex items-center gap-2 flex-wrap">
             <select
+              id="timezone-target"
               value={c.utcCenter ?? ""}
               onChange={(e) =>
                 onPatchConstraints({
@@ -171,9 +182,13 @@ export function ControlsPanel({
               ))}
             </select>
             {c.utcCenter !== null && (
-              <span className="font-mono text-xs text-muted-foreground flex items-center">
-                ±
+              <label
+                htmlFor="timezone-tolerance"
+                className="font-mono text-xs text-muted-foreground flex items-center"
+              >
+                Tolerance ±
                 <input
+                  id="timezone-tolerance"
                   type="number"
                   min={0}
                   max={12}
@@ -183,8 +198,8 @@ export function ControlsPanel({
                   }
                   className="w-12 mx-1 rounded border border-border bg-background px-1 py-0.5"
                 />
-                h
-              </span>
+                hours
+              </label>
             )}
           </div>
         </div>
